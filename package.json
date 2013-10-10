@@ -1,15 +1,22 @@
 {
-  "name": "hallberg",
+  "name": "website",
   "version": "0.1.0",
-  "description": "hallberg.cc site",
+  "description": "hallberg.cc landing page",
+  "author": "Victor Hallberg <victor@hallberg.cc>",
+  "repository": {
+    "type" : "git",
+    "url": "http://github.com/mogelbrod/website.git"
+  },
+  "license": "BSD-2-Clause",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "author": "Victor Hallberg",
-  "license": "BSD-2-Clause",
   "dependencies": {
     "jade": "~0.35.0",
     "stylus": "~0.38.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1"
   }
 }
