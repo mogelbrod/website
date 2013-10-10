@@ -4,19 +4,28 @@
   "description": "hallberg.cc landing page",
   "author": "Victor Hallberg <victor@hallberg.cc>",
   "repository": {
-    "type" : "git",
+    "type": "git",
     "url": "http://github.com/mogelbrod/website.git"
   },
   "license": "BSD-2-Clause",
-  "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "compile": "grunt"
+    "server": "grunt server"
   },
   "dependencies": {
+    "coffee-script": "~1.6.3",
     "jade": "~0.35.0",
     "stylus": "~0.38.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.1"
+    "grunt": "~0.4.1",
+    "grunt-contrib-jade": "~0.8.0",
+    "grunt-contrib-stylus": "~0.8.0",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-connect": "~0.5.0"
+  },
+  "optionalDependencies": {
+    "express": "~3.4.0"
   }
 }
