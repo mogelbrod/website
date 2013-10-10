@@ -9,7 +9,7 @@
   },
   "license": "BSD-2-Clause",
   "scripts": {
-    "compile": "grunt"
+    "compile": "grunt",
     "server": "grunt server"
   },
   "dependencies": {

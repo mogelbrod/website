@@ -46,7 +46,7 @@ module.exports = (grunt) ->
         options:
           port: 8000
           protocol: 'http'
-          base: 'public'
+          base: ['assets', 'public']
           debug: true
 
     watch:
