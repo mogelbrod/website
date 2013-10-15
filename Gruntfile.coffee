@@ -1,75 +1,108 @@
 module.exports = (grunt) ->
   # Load tasks
-  npmTasks = ['coffee', 'jade', 'stylus', 'watch', 'connect']
-  grunt.loadNpmTasks("grunt-contrib-#{task}") for task in npmTasks
+  npmTasks = [
+    'grunt-contrib-jade'
+    'grunt-contrib-coffee'
+    'grunt-contrib-stylus'
+    'grunt-contrib-watch'
+    'grunt-contrib-connect'
+    'grunt-contrib-copy'
+    'grunt-contrib-clean'
+    'grunt-shell'
+  ]
+  grunt.loadNpmTasks(task) for task in npmTasks
 
   grunt.initConfig
     pkg: grunt.file.readJSON 'package.json'
-
-    coffee:
-      compile:
-        expand: true
-        cwd: 'app'
-        src: ['**.coffee']
-        dest: 'public/'
-        ext: '.js'
-        options:
-          bare: true
-          join: true
 
     jade:
       compile:
         files: [
             expand: true
-            cwd: 'app'
+            cwd: 'html'
             src: '**.jade'
-            dest: 'public/'
+            dest: 'build/'
             ext: '.html'
         ]
         options:
           pretty: true
 
+    coffee:
+      compile:
+        expand: true
+        cwd: 'scripts'
+        src: ['**.coffee']
+        dest: 'build/assets/'
+        ext: '.js'
+        options:
+          bare: true
+          join: true
+
     stylus:
       compile:
         files: [
             expand: true
-            cwd: 'app'
+            cwd: 'css'
             src: '**.styl'
-            dest: 'public/'
+            dest: 'build/assets/'
             ext: '.css'
         ]
         options:
-          compress: false
+          compress: true
+          paths: ['build/assets']
+          'include css': true
+
+    copy:
+      build:
+        files: [
+          { expand: true, cwd: 'assets', src: ['**'], dest: 'build/assets' }
+        ]
+
+    clean:
+      build:
+        src: ['build']
+
+    shell:
+      generateSprites:
+        options:
+          stdout: true
+          stderr: true
+        command: "glue sprite/ build/assets/"
 
     connect:
       server:
         options:
           port: 8000
           protocol: 'http'
-          base: ['assets', 'public']
+          base: ['build']
           debug: true
 
     watch:
-      coffee:
-        files: ['app/*.coffee', 'app/**/*.coffee']
-        tasks: 'coffee'
       jade:
-        files: ['app/*.jade', 'app/**/*.jade']
+        files: ['html/*.jade', 'html/**/*.jade']
         tasks: 'jade'
+      coffee:
+        files: ['scripts/*.coffee', 'scripts/**/*.coffee']
+        tasks: 'coffee'
       stylus:
-        files: ['app/*.styl', 'app/**/*.styl']
+        files: ['css/*.styl', 'css/**/*.styl']
         tasks: 'stylus'
 
-  grunt.registerTask 'default', [
-    'coffee'
+  grunt.registerTask 'build', [
+    'clean:build'
+    'copy:build'
+    'shell:generateSprites'
     'jade'
+    'coffee'
     'stylus'
   ]
 
   grunt.registerTask 'server', [
-    'coffee'
-    'jade'
-    'stylus'
+    'build'
     'connect:server'
     'watch'
+  ]
+
+  grunt.registerTask 'default', [
+    'build'
   ]
